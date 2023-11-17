@@ -20,12 +20,18 @@ sources:
       
       - name: addresses
         description: Datos de dirreciones de clientes.
+        
         columns:
+          
           - name: address_id
             description: Clave primaria para la tabla de direcciones.
             tests:
+              - relationships:
+                  to: source('sql_server_dbo', 'users') 
+                  field: user_id
               - not_null
               - unique
+              
                 
           - name: zipcode
             description: Codigo postal de la dirección.
@@ -57,9 +63,9 @@ sources:
                   
       - name: events
         description: Datos de eventos web.
-
+        
         columns:
-
+          
           - name: event_id
             description: Identificador único de cada evento.
             tests:
@@ -72,18 +78,26 @@ sources:
               - not_null
 
           - name: event_type
-            description: Tipo de evento web.
+            description: Tipo de evento web que puede ser page_view, add_to_cart, checkout, package_shipped
             tests:
+              - accepted_values:
+                  values: ['page_view','add_to_cart','checkout','package_shipped'] 
               - not_null
 
           - name: user_id
             description: ID del usuario que generó el evento. 
             tests:
+              - relationships:
+                  to: source('sql_server_dbo', 'users')
+                  field: user_id
               - not_null
 
           - name: product_id
             description: ID del producto relacionado con el evento.
             tests:
+              - relationships:
+                  to: source('sql_server_dbo', 'products')
+                  field: product_id
               - not_null
 
           - name: session_id
@@ -98,6 +112,10 @@ sources:
 
           - name: order_id
             description: ID del pedido relacionado si el evento fue una compra.
+            tests:
+              - relationships:
+                  to: source('sql_server_dbo', 'orders')
+                  field: order_id
 
           - name: _fivetran_deleted  
             description: Fecha en que se borraron los datos.
@@ -108,10 +126,10 @@ sources:
               - not_null
 
       - name: orders
-        description: Datos de pedidos de compra.
-
+        description: Esta tabla contiene los pedidos realizados por los clientes, con los costes y el total en dólares.
+        
         columns:
-
+         
           - name: order_id
             description: Identificador único de cada pedido.
             tests:
@@ -131,6 +149,9 @@ sources:
           - name: address_id
             description: ID de la dirección de envío.
             tests:
+              - relationships:
+                  to: source('sql_server_dbo', 'addresses')
+                  field: address_id
               - not_null
 
           - name: created_at 
@@ -139,7 +160,12 @@ sources:
               - not_null
 
           - name: promo_id
-            description: ID del código de promoción aplicado.
+            description: El identificador de la promoción aplicada al pedido, si la hay, o null en caso contrario.
+            tests:
+              - relationships:
+                  to: source('sql_server_dbo', 'promos')
+                  field: promo_id
+              - not_null
 
           - name: estimated_delivery_at
             description: Fecha y hora estimada de entrega.
@@ -154,6 +180,9 @@ sources:
           - name: user_id
             description: ID del usuario que realizó la compra.
             tests:
+              - relationships:
+                  to: source('sql_server_dbo', 'users')
+                  field: user_id
               - not_null
 
           - name: order_total  
@@ -162,14 +191,20 @@ sources:
               - not_null
 
           - name: delivered_at
-            description: Fecha y hora en que se entregó el pedido.
+            description: La fecha y hora en que se entregó el pedido, o null si aún está preparación.
+            tests:
+              - not_null
 
           - name: tracking_id
             description: ID de seguimiento del envío.
+            tests:
+              - not_null
 
           - name: status
-            description: Estado actual del pedido.
+            description: El estado actual del pedido, que puede ser delivered, shipped o preparing.
             tests:
+              - accepted_values:
+                  values: ['delivered', 'shipped', 'preparing']
               - not_null
 
           - name: _fivetran_deleted
@@ -188,12 +223,14 @@ sources:
           - name: order_id
             description: ID del pedido. 
             tests:
+              - unique
               - not_null
               
           - name: product_id
             description: ID del producto pedido.
             tests:
               - not_null
+              - unique
 
           - name: quantity
             description: Cantidad del producto pedido.
@@ -222,6 +259,7 @@ sources:
             description: Precio del producto.
             tests:
               - not_null
+              - positive_values
 
           - name: name
             description: Nombre del producto.
