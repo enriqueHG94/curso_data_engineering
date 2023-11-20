@@ -309,7 +309,7 @@ sources:
               - not_null
       
       - name: users
-        description: Datos de perfil de usuarios
+        description: Datos de perfil de usuarios.
         
         columns:
 

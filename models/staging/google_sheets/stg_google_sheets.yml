@@ -1,25 +1,35 @@
 version: 2
 
 models:
+
   - name: stg_budget
+
+    description: Datos sobre el presupuesto.
+
     columns:
+
       - name: _row
+        description:  Número de cada fila de google sheet.
         tests:
           - not_null
           - unique
-      - name: product_id         
+      - name: product_id
+        description: UUID para cada producto único en la plataforma.  
         tests:
           - not_null
           - relationships:
                 to: ref('stg_products')
                 field: product_id  
       - name: quantity
+        description: Número de unidades para cada producto y cada mes para los productos.
         tests:
           - not_null
           - positive_values    
       - name: month
+        description: Cada mes para el presupuesto -> Fin de mes.
         tests:
           - not_null
       - name: date_load
+        description: Fecha en que se cargaron los datos.
         tests:
           - not_null
