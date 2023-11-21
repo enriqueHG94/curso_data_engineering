@@ -1,18 +1,16 @@
 version: 2
 
 models:
-
   - name: stg_addresses
 
     description: La tabla stg_addresses contiene las direcciones de envío.
 
     columns:
-
       - name: address_id
         description: Identificador único de la dirección.
         tests:
           - relationships:
-              to: ref('stg_users')  
+              to: ref('stg_users')
               field: user_id
           - not_null
           - unique
@@ -24,14 +22,14 @@ models:
 
       - name: state
         description: Estado de la dirección.
-        tests:  
+        tests:
           - not_null
 
       - name: country
         description: País de la dirección.
         tests:
           - accepted_values:
-              values: ['United States']  
+              values: ["United States"]
           - not_null
 
       - name: zipcode
@@ -52,23 +50,22 @@ models:
     description: Datos de eventos web.
 
     columns:
-
       - name: event_id
         description: Identificador único de cada evento.
-        tests:  
+        tests:
           - not_null
           - unique
 
-      - name: page_url  
+      - name: page_url
         description: URL de la página donde ocurrió el evento.
         tests:
           - not_null
-        
+
       - name: event_type
         description: Tipo de evento.
         tests:
-          - accepted_values: 
-              values: ['pageview', 'add_to_cart', 'checkout', 'package_shipped']
+          - accepted_values:
+              values: ["pageview", "add_to_cart", "checkout", "package_shipped"]
           - not_null
 
       - name: user_id
@@ -86,10 +83,10 @@ models:
               to: ref('stg_products')
               field: product_id
           - not_null
-        
+
       - name: session_id
         description: ID de sesión del usuario.
-        tests:  
+        tests:
           - not_null
 
       - name: order_id
@@ -117,16 +114,15 @@ models:
     description: Esta tabla contiene los pedidos realizados por los clientes, con los costes y el total en dólares.
 
     columns:
-         
       - name: order_id
         description: Identificador único de cada pedido.
         tests:
-          - not_null 
+          - not_null
           - unique
 
       - name: user_id
         description: ID del usuario que realizó la compra.
-        tests:  
+        tests:
           - relationships:
               to: ref('stg_users')
               field: user_id
@@ -141,7 +137,11 @@ models:
 
       - name: promo_id
         description: ID del código de promoción aplicado.
-        
+        tests:
+          - relationships:
+              to: ref('stg_promos')
+              field: promo_id
+
       - name: tracking_id
         description: ID de seguimiento del envío.
 
@@ -150,7 +150,7 @@ models:
         tests:
           - not_null
 
-      - name: estimated_delivery_at 
+      - name: estimated_delivery_at
         description: Fecha estimada de entrega.
         tests:
           - not_null
@@ -159,7 +159,7 @@ models:
         description: Estado actual del pedido.
         tests:
           - accepted_values:
-              values: ['delivered', 'shipped', 'preparing']
+              values: ["delivered", "shipped", "preparing"]
 
       - name: delivered_at
         description: La fecha y hora en que se entregó el pedido.
@@ -178,8 +178,8 @@ models:
         description: Costo total de la orden.
         tests:
           - not_null
-        
-      - name: order_total  
+
+      - name: order_total
         description: Total de la orden incluyendo impuestos y envío.
         tests:
           - not_null
@@ -197,10 +197,9 @@ models:
     description: Datos de productos de cada pedido.
 
     columns:
-
       - name: order_id
         description: ID de la orden.
-        tests:  
+        tests:
           - not_null
 
       - name: product_id
@@ -227,17 +226,16 @@ models:
     description: Datos de productos.
 
     columns:
-      
       - name: product_id
         description: Identificador único del producto.
-        tests:  
+        tests:
           - not_null
           - unique
 
-      - name: name 
+      - name: name
         description: Nombre del producto.
         tests:
-          - not_null  
+          - not_null
 
       - name: price
         description: Precio del producto.
@@ -262,13 +260,12 @@ models:
     description: Datos de promociones.
 
     columns:
-
       - name: promo_id
         description: Identificador único de la promoción.
         tests:
           - not_null
           - unique
-        
+
       - name: discount
         description: Porcentaje de descuento de la promoción.
         tests:
@@ -278,7 +275,7 @@ models:
         description: Estado actual de la promoción.
         tests:
           - accepted_values:
-              values: ['inactive', 'active']
+              values: ["inactive", "active"]
 
       - name: date_deleted
         description: Fecha en que se eliminaron los datos.
@@ -287,16 +284,15 @@ models:
         description: Fecha en que se cargaron los datos.
         tests:
           - not_null
- 
+
   - name: stg_users
 
     description: Datos de perfil de usuarios.
 
     columns:
-      
       - name: user_id
         description: Identificador único del usuario.
-        tests:  
+        tests:
           - not_null
           - unique
 
@@ -325,7 +321,7 @@ models:
       - name: email
         description: Email del usuario.
         tests:
-          - not_null 
+          - not_null
 
       - name: created_at
         description: Fecha de creación del perfil de usuario.
@@ -341,7 +337,7 @@ models:
         description: Cantidad total de pedidos del usuario.
         tests:
           - not_null
-        
+
       - name: date_deleted
         description: Fecha en que se eliminaron los datos.
 
