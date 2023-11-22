@@ -9,14 +9,12 @@ source as (
 renamed_addresses as (
 
     select
-        address_id,
-        address,
-        zipcode,
-        state,
-        country,
-        _fivetran_deleted AS date_deleted,
+        cast(address_id as varchar(75)) as id_address,
+        cast(address as varchar(75)) as address,
+        cast(zipcode as integer) as zipcode,
+        cast(state as varchar(75)) as state,
+        cast(country as varchar(75)) as country,
         _fivetran_synced AS date_load
-
     from source
 
 )

@@ -9,11 +9,10 @@ source as (
 renamed_promos as (
 
     select
-        {{ dbt_utils.generate_surrogate_key(['promo_id']) }} as promo_id,
-        cast(promo_id as varchar(50)) as desc_promo,
-        cast(discount as number(10,0)) as discount,
-        cast(status as varchar(50)) as status,
-        _fivetran_deleted as date_deleted,
+        {{ dbt_utils.generate_surrogate_key(['promo_id']) }} as id_promo,
+        initcap(cast(promo_id as varchar(50))) as desc_promo,
+        cast(discount as integer) as discount,
+        initcap(cast(status as varchar(50))) as status,
         _fivetran_synced as date_load
 
 from source
@@ -23,9 +22,8 @@ from source
 select * from renamed_promos
 union all
 select
-'999',
-'Sin Promo',
+{{ dbt_utils.generate_surrogate_key(['999']) }},
+'Sin promo',
 0,
-'inactive',
-null,
+'Inactive',
 null

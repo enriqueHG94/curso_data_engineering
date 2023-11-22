@@ -9,10 +9,9 @@ source as (
 renamed_order_items as (
 
     select
-        order_id,
-        product_id,
-        quantity,
-        _fivetran_deleted AS date_deleted,
+        cast(order_id as varchar(75)) as id_order ,
+        cast(product_id as varchar(75)) as id_product ,
+        cast(quantity as integer) as quantity,
         _fivetran_synced AS date_load
 
     from source

@@ -9,15 +9,14 @@ source as (
 renamed_events as (
 
     select
-        event_id,
-        page_url,
-        event_type,
-        user_id,
-        product_id,
-        session_id,
-        order_id,
+        cast(event_id as varchar(75)) as id_event,
+        cast(user_id as varchar(75)) as id_user,
+        cast(session_id as varchar(75)) as id_session,
+        cast(product_id as varchar(75)) as id_product,
+        cast(order_id as varchar(75)) as id_order,
+        cast(event_type as varchar(75)) as event_type ,
+        cast(page_url as varchar(100)) as page_url,
         created_at,
-        _fivetran_deleted AS date_deleted,
         _fivetran_synced AS date_load
 
     from source

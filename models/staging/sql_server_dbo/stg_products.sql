@@ -9,11 +9,10 @@ source as (
 renamed_products as (
 
     select
-        product_id,
+        cast(product_id as varchar(75)) as id_product,
         name,
-        price,
-        inventory,
-        _fivetran_deleted AS date_deleted,
+        cast(price as decimal(10,2)) as price,
+        cast(inventory as integer) as inventory,
         _fivetran_synced AS date_load
 
     from source
