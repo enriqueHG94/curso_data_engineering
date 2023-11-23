@@ -5,7 +5,7 @@ sources:
   - name: sql_server_dbo # Nombre de la fuente
     description: datos brutos de la base de datos.
     schema: sql_server_dbo # Este es el esquema en el que viven nuestros datos brutos
-    database: ALUMNO11_DEV_BRONZE_DB # Este es el nombre de nuestra base de datos
+    database: "{{ env_var('DBT_ENVIRONMENTS') }}_BRONZE_DB" # Este es el nombre de nuestra base de datos
 
     quoting:
       database: false

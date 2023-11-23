@@ -12,11 +12,11 @@ renamed_events as (
         cast(event_id as varchar(75)) as id_event,
         cast(user_id as varchar(75)) as id_user,
         cast(session_id as varchar(75)) as id_session,
-        decode(product_id, null, 'pagado_o_enviado', '', 'pagado_o_enviado', product_id) as id_product,
-        decode(order_id, null, 'visto_o_en_carro', '', 'visto_o_en_carro', order_id) as id_order,
-        cast(event_type as varchar(75)) as event_type ,
+        cast(product_id as varchar(75)) as id_product,
+        cast(order_id as varchar(75)) as id_order,
+        cast(event_type as varchar(75)) as event_type,
         cast(page_url as varchar(100)) as page_url,
-        created_at,
+        created_at as created_event,
         _fivetran_synced AS date_load
 
     from src_events

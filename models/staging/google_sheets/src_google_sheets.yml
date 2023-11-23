@@ -5,7 +5,7 @@ sources:
   - name: google_sheets # Nombre de la fuente.
     description: Datos brutos de la base de datos.
     schema: google_sheets # Este es el esquema en el que viven nuestros datos brutos.
-    database: ALUMNO11_DEV_BRONZE_DB # Este es el nombre de nuestra base de datos.
+    database: "{{ env_var('DBT_ENVIRONMENTS') }}_BRONZE_DB" # Este es el nombre de nuestra base de datos.
 
     quoting:
       database: false

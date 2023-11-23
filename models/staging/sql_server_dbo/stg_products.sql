@@ -10,7 +10,7 @@ renamed_products as (
 
     select
         cast(product_id as varchar(75)) as id_product,
-        name,
+        cast(name as varchar(75)) as name, 
         cast(price as decimal(10,2)) as price,
         cast(inventory as integer) as inventory,
         _fivetran_synced AS date_load

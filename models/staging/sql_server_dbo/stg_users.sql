@@ -15,8 +15,8 @@ renamed_users as (
         cast(last_name as varchar(75)) as last_name,
         cast(phone_number as varchar(75)) as phone_number,
         cast(email as varchar(75)) as email,
-        created_at,
-        updated_at,
+        created_at as created_profile,
+        updated_at as updated_profile,
         _fivetran_synced AS date_load
 
     from src_users
