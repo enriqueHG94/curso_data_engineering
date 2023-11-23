@@ -1,0 +1,49 @@
+version: 2
+
+sources:
+
+  - name: google_sheets # Nombre de la fuente.
+    description: Datos brutos de la base de datos.
+    schema: google_sheets # Este es el esquema en el que viven nuestros datos brutos.
+    database: "{{ env_var('DBT_ENVIRONMENTS') }}_BRONZE_DB" # Este es el nombre de nuestra base de datos.
+
+    quoting:
+      database: false
+      schema: false
+      identifier: false
+
+    freshness:
+      warn_after: {count: 24, period: hour}
+      error_after: {count: 48, period: hour}
+
+    tables:
+
+      - name: budget
+        loaded_at_field: _fivetran_synced
+        description: Datos sobre el presupuesto.
+        columns:
+          - name: _row
+            description:  Número de cada fila de google sheet.
+            tests:
+              - not_null
+              - unique
+          - name: product_id
+            description: UUID para cada producto único en la plataforma.
+            tests:
+              - not_null
+              - relationships:
+                  to: source('sql_server_dbo','products')
+                  field: product_id
+          - name: quantity
+            description: Número de unidades para cada producto y cada mes para los productos.
+            tests:
+              - not_null
+              - positive_values
+          - name: month
+            description: Cada mes para el presupuesto -> Fin de mes.
+            tests:
+              - not_null
+          - name: _fivetran_synced
+            description: Fecha en que se cargaron los datos.
+            tests:
+              - not_null
