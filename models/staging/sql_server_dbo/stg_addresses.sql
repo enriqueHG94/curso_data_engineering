@@ -1,6 +1,6 @@
 with 
 
-source as (
+src_addresses as (
 
     select * from {{ source('sql_server_dbo', 'addresses') }}
 
@@ -15,7 +15,7 @@ renamed_addresses as (
         cast(state as varchar(75)) as state,
         cast(country as varchar(75)) as country,
         _fivetran_synced AS date_load
-    from source
+    from src_addresses
 
 )
 

@@ -1,6 +1,6 @@
 with 
 
-source as (
+src_order_items as (
 
     select * from {{ source('sql_server_dbo', 'order_items') }}
 
@@ -14,7 +14,7 @@ renamed_order_items as (
         cast(quantity as integer) as quantity,
         _fivetran_synced AS date_load
 
-    from source
+    from src_order_items
 
 )
 

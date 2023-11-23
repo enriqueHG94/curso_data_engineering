@@ -1,6 +1,6 @@
 with
 
-source as (
+src_promos as (
 
     select * from {{ source('sql_server_dbo', 'promos') }}
 
@@ -15,14 +15,14 @@ renamed_promos as (
         initcap(cast(status as varchar(50))) as status,
         _fivetran_synced as date_load
 
-from source
+from src_promos
 
 )
 
 select * from renamed_promos
 union all
 select
-{{ dbt_utils.generate_surrogate_key(['999']) }},
+'d41d8cd98f00b204e9800998ecf8427e',
 'Sin promo',
 0,
 'Inactive',

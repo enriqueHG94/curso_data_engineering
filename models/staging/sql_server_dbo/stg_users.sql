@@ -1,6 +1,6 @@
 with 
 
-source as (
+src_users as (
 
     select * from {{ source('sql_server_dbo', 'users') }}
 
@@ -19,7 +19,7 @@ renamed_users as (
         updated_at,
         _fivetran_synced AS date_load
 
-    from source
+    from src_users
 
 )
 
