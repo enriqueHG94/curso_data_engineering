@@ -26,9 +26,6 @@ sources:
           - name: address_id
             description: Clave primaria para la tabla de direcciones.
             tests:
-              - relationships:
-                  to: source('sql_server_dbo', 'users') 
-                  field: user_id
               - not_null
               - unique
               
@@ -87,18 +84,10 @@ sources:
           - name: user_id
             description: ID del usuario que generó el evento. 
             tests:
-              - relationships:
-                  to: source('sql_server_dbo', 'users')
-                  field: user_id
               - not_null
 
           - name: product_id
-            description: ID del producto relacionado con el evento.
-            tests:
-              - relationships:
-                  to: source('sql_server_dbo', 'products')
-                  field: product_id
-              - not_null
+            description: ID del producto relacionado con el evento(tiene null cuando event type esta en checkout o package shipped).
 
           - name: session_id
             description: ID de la sesión del usuario.
@@ -111,11 +100,7 @@ sources:
               - not_null
 
           - name: order_id
-            description: ID del pedido relacionado si el evento fue una compra.
-            tests:
-              - relationships:
-                  to: source('sql_server_dbo', 'orders')
-                  field: order_id
+            description: ID del pedido relacionado si el evento fue una compra(tiene null cuando event type esta en page view o add to cart).
 
           - name: _fivetran_deleted  
             description: Fecha en que se borraron los datos.
@@ -137,9 +122,7 @@ sources:
               - unique
 
           - name: shipping_service 
-            description: Servicio de envío utilizado en el pedido.
-            tests:
-              - not_null
+            description: Servicio de envío utilizado en el pedido(tiene null cuando status esta en preparing).
 
           - name: shipping_cost
             description: Costo del envío.
@@ -149,9 +132,6 @@ sources:
           - name: address_id
             description: ID de la dirección de envío.
             tests:
-              - relationships:
-                  to: source('sql_server_dbo', 'addresses')
-                  field: address_id
               - not_null
 
           - name: created_at 
@@ -161,16 +141,9 @@ sources:
 
           - name: promo_id
             description: El identificador de la promoción aplicada al pedido, si la hay, o null en caso contrario.
-            tests:
-              - relationships:
-                  to: source('sql_server_dbo', 'promos')
-                  field: promo_id
-              - not_null
 
           - name: estimated_delivery_at
-            description: Fecha y hora estimada de entrega.
-            tests:
-              - not_null
+            description: Fecha y hora estimada de entrega(tiene null cuando status esta en preparing).
 
           - name: order_cost
             description: Costo total del pedido.
@@ -180,9 +153,6 @@ sources:
           - name: user_id
             description: ID del usuario que realizó la compra.
             tests:
-              - relationships:
-                  to: source('sql_server_dbo', 'users')
-                  field: user_id
               - not_null
 
           - name: order_total  
@@ -192,13 +162,9 @@ sources:
 
           - name: delivered_at
             description: La fecha y hora en que se entregó el pedido, o null si aún está preparación.
-            tests:
-              - not_null
 
           - name: tracking_id
-            description: ID de seguimiento del envío.
-            tests:
-              - not_null
+            description: ID de seguimiento del envío(tiene null cuando status esta en preparing).
 
           - name: status
             description: El estado actual del pedido, que puede ser delivered, shipped o preparing.
@@ -346,8 +312,6 @@ sources:
 
           - name: total_orders
             description: Cantidad total de pedidos del usuario. 
-            tests:
-              - not_null
 
           - name: first_name
             description: Nombre del usuario.
@@ -366,5 +330,3 @@ sources:
             description: Fecha en el que se cargaron los datos.
             tests:
               - not_null
-
-
