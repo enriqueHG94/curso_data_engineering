@@ -29,7 +29,7 @@ models:
         description: Each month for the budget -> End of the month.
         tests:
           - not_null
-      - name: date_load
+      - name: raw_timestamp_load
         description: Date when the data was loaded.
         tests:
           - not_null
