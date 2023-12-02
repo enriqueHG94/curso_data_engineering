@@ -15,7 +15,7 @@ renamed_orders as (
         {{ dbt_utils.generate_surrogate_key(['promo_id']) }} as id_promo,
         tracking_id as id_tracking,
         created_at as created_at_utc,
-        decode(promo_id, null, 'Sin promo', '', 'Sin promo', promo_id) as desc_promo,
+        decode(promo_id, null, 'With Promo', '', 'With Promo', promo_id) as desc_promo,
         initcap(cast(status as varchar(25))) as status,
         estimated_delivery_at as estimated_delivery_at_utc,
         delivered_at as delivered_at_utc,
@@ -23,7 +23,7 @@ renamed_orders as (
         cast(shipping_cost as decimal(10,2)) as shipping_cost_usd,
         cast(order_cost as decimal(10,2)) as item_order_cost_usd,
         cast(order_total as decimal(10,2)) as order_total_usd,
-        _fivetran_synced as date_load
+        _fivetran_synced as raw_timestamp_load
 
     from src_orders
 

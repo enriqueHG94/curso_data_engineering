@@ -13,7 +13,7 @@ renamed_promos as (
         initcap(cast(promo_id as varchar(50))) as desc_promo,
         cast(discount as integer) as discount,
         initcap(cast(status as varchar(50))) as status,
-        _fivetran_synced as date_load
+        _fivetran_synced as raw_timestamp_load
 
 from src_promos
 
@@ -23,7 +23,7 @@ select * from renamed_promos
 union all
 select
 'd41d8cd98f00b204e9800998ecf8427e',
-'Sin promo',
+'With Promo',
 0,
 'Inactive',
 '2023-11-11T11:11:35.244000-08:00'

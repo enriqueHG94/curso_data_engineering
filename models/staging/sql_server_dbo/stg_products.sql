@@ -13,7 +13,7 @@ renamed_products as (
         cast(name as varchar(75)) as name, 
         cast(price as decimal(10,2)) as price,
         cast(inventory as integer) as inventory,
-        _fivetran_synced AS date_load
+        _fivetran_synced as raw_timestamp_load
 
     from src_products
 
