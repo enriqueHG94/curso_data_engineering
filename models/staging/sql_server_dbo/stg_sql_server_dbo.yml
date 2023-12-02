@@ -3,11 +3,11 @@ version: 2
 models:
   - name: stg_addresses
 
-    description: Contiene las direcciones de envío.
+    description: Contains shipping addresses.
 
     columns:
       - name: id_address
-        description: Identificador único de la dirección.
+        description: Unique identifier for the address.
         tests:
           - relationships:
               to: ref('stg_users')
@@ -16,45 +16,45 @@ models:
           - unique
 
       - name: address
-        description: Dirección completa incluyendo calle y número.
+        description: Complete address including street and number.
         tests:
           - not_null
 
       - name: zipcode
-        description: Código postal de la dirección.
+        description: Zip code of the address.
         tests:
           - not_null
             
       - name: state
-        description: Estado de la dirección.
+        description: State of the address.
         tests:
           - not_null
 
       - name: country
-        description: País de la dirección.
+        description: Country of the address.
         tests:
           - accepted_values:
               values: ["United States"]
           - not_null
 
       - name: date_load
-        description: Fecha en que se cargaron los datos.
+        description: Date when the data was loaded.
         tests:
           - not_null
 
   - name: stg_events
 
-    description: Datos de eventos web.
+    description: Data about web events.
 
     columns:
       - name: id_event
-        description: Identificador único de cada evento.
+        description: Unique identifier for each event.
         tests:
           - not_null
           - unique
 
       - name: id_user
-        description: ID del usuario que generó el evento.
+        description: ID of the user who generated the event.
         tests:
           - relationships:
               to: ref('stg_users')
@@ -62,12 +62,12 @@ models:
           - not_null
 
       - name: id_session
-        description: ID de sesión del usuario.
+        description: User's session ID.
         tests:
           - not_null
 
       - name: id_product
-        description: ID del producto asociado al evento.
+        description: ID of the product associated with the event.
         tests:
           - relationships:
               to: ref('stg_products')
@@ -75,46 +75,46 @@ models:
           - not_null    
 
       - name: id_order
-        description: ID del pedido si el evento está asociado a una compra.
+        description: ID of the order if the event is associated with a purchase.
         tests:
           - relationships:
               to: ref('stg_orders')
               field: id_order
       - name: event_type
-        description: Tipo de evento.
+        description: Type of event.
         tests:
           - accepted_values:
               values: ["pageview", "add_to_cart", "checkout", "package_shipped"]
           - not_null
 
       - name: page_url
-        description: URL de la página donde ocurrió el evento.
+        description: URL of the page where the event occurred.
         tests:
           - not_null
 
       - name: created_event
-        description: Fecha y hora que ocurrió el evento.
+        description: Date and time when the event occurred.
         tests:
           - not_null
 
       - name: date_load
-        description: Fecha en que se cargaron los datos.
+        description: Date when the data was loaded.
         tests:
           - not_null
 
   - name: stg_orders
 
-    description: Esta tabla contiene los pedidos realizados por los clientes, con los costes y el total en dólares.
+    description: This table contains orders placed by customers, with costs and total in dollars.
 
     columns:
       - name: id_order
-        description: Identificador único de cada pedido.
+        description: Unique identifier for each order.
         tests:
           - not_null
           - unique
 
       - name: id_user
-        description: ID del usuario que realizó la compra.
+        description: ID of the user who made the purchase.
         tests:
           - relationships:
               to: ref('stg_users')
@@ -122,213 +122,213 @@ models:
           - not_null
 
       - name: id_address
-        description: ID de la dirección de envío.
+        description: ID of the shipping address.
         tests:
           - relationships:
               to: ref('stg_addresses')
               field: id_address
 
       - name: id_promo
-        description: ID del código de promoción aplicado.
+        description: ID of the applied promo code.
         tests:
           - relationships:
               to: ref('stg_promos')
               field: id_promo
 
       - name: id_tracking
-        description: ID de seguimiento del envío.
+        description: Shipment tracking ID.
         tests:
           - not_null
 
       - name: created_at_utc
-        description: Fecha de creación del pedido.
+        description: Date of order creation.
         tests:
           - not_null
 
       - name: desc_promo
-        description: Descripción de la promoción
+        description: Description of the promotion.
         tests:
           - not_null    
 
       - name: status
-        description: Estado actual del pedido.
+        description: Current status of the order.
         tests:
           - accepted_values:
               values: ["delivered", "shipped", "preparing"]
       
       - name: estimated_delivery_at_utc
-        description: Fecha estimada de entrega.
+        description: Estimated delivery date.
         tests:
           - not_null   
 
       - name: delivered_at_utc
-        description: La fecha y hora en que se entregó el pedido.
+        description: Date and time the order was delivered.
         tests:
           - not_null
           
       - name: shipping_service
-        description: Servicio de envío utilizado.
+        description: Shipping service used.
         tests:
           - not_null
 
       - name: shipping_cost_usd
-        description: Costo del envío.
+        description: Shipping cost.
         tests:
           - not_null
 
       - name: order_cost_usd
-        description: Costo total de la orden.
+        description: Total cost of the order.
         tests:
           - not_null
 
       - name: order_total_usd
-        description: Total de la orden incluyendo impuestos y envío.
+        description: Total order including taxes and shipping.
         tests:
           - not_null
 
       - name: date_load
-        description: Fecha en que se cargaron los datos.
+        description: Date when the data was loaded.
         tests:
           - not_null
 
   - name: stg_order_items
 
-    description: Datos de productos de cada pedido.
+    description: Data about products in each order.
 
     columns:
       - name: id_order
-        description: ID de la orden.
+        description: Order ID.
         tests:
           - not_null
 
       - name: id_product
-        description: ID del producto en la línea de orden.
+        description: Product ID in the order line.
         tests:
           - not_null
 
       - name: quantity
-        description: Cantidad ordenada de este producto.
+        description: Ordered quantity of this product.
         tests:
           - not_null
           - positive_value
 
       - name: date_load
-        description: Fecha en que se cargaron los datos.
+        description: Date when the data was loaded.
         tests:
           - not_null
 
   - name: stg_products
 
-    description: Datos de productos.
+    description: Data about products.
 
     columns:
       - name: product_id
-        description: Identificador único del producto.
+        description: Unique identifier for the product.
         tests:
           - not_null
           - unique
 
       - name: name
-        description: Nombre del producto.
+        description: Product name.
         tests:
           - not_null
 
       - name: price
-        description: Precio del producto.
+        description: Product price.
         tests:
           - not_null
 
       - name: inventory
-        description: Cantidad en inventario del producto.
+        description: Quantity in inventory of the product.
         tests:
           - not_null
 
       - name: date_load
-        description: Fecha en que se cargaron los datos.
+        description: Date when the data was loaded.
         tests:
           - not_null
 
   - name: stg_promos
 
-    description: Datos de promociones.
+    description: Data about promotions.
 
     columns:
       - name: id_promo
-        description: Identificador único de la promoción.
+        description: Unique identifier for the promotion.
         tests:
           - not_null
           - unique
 
       - name: desc_promo
-        description: Descrición de la promoción.
+        description: Description of the promotion.
         tests:
           - not_null
 
       - name: discount
-        description: Porcentaje de descuento de la promoción.
+        description: Percentage discount of the promotion.
         tests:
           - not_null
 
       - name: status
-        description: Estado actual de la promoción.
+        description: Current status of the promotion.
         tests:
           - accepted_values:
               values: ["inactive", "active"]
 
       - name: date_load
-        description: Fecha en que se cargaron los datos.
+        description: Date when the data was loaded.
         tests:
           - not_null
 
   - name: stg_users
 
-    description: Datos de perfil de usuarios.
+    description: Data about user profiles.
 
     columns:
       - name: id_user
-        description: Identificador único del usuario.
+        description: Unique identifier for the user.
         tests:
           - not_null
           - unique
 
       - name: id_address
-        description: ID de la dirección del usuario.
+        description: ID of the user's address.
         tests:
           - relationships:
               to: ref('stg_addresses')
               field: id_address
 
       - name: first_name
-        description: Nombre del usuario.
+        description: User's first name.
         tests:
           - not_null
 
       - name: last_name
-        description: Apellido del usuario.
+        description: User's last name.
         tests:
           - not_null
 
       - name: phone_number
-        description: Teléfono de contacto del usuario.
+        description: User's contact phone number.
         tests:
           - not_null
 
       - name: email
-        description: Email del usuario.
+        description: User's email.
         tests:
           - not_null
 
       - name: created_profile
-        description: Fecha de creación del perfil de usuario.
+        description: Date of user profile creation.
         tests:
           - not_null
 
       - name: updated_profile
-        description: Fecha de última actualización del perfil.
+        description: Date of the last profile update.
         tests:
           - not_null
 
       - name: date_load
-        description: Fecha en que se cargaron los datos.
+        description: Date when the data was loaded.
         tests:
           - not_null
