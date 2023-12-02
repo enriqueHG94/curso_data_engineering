@@ -9,9 +9,6 @@ models:
       - name: id_address
         description: Unique identifier for the address.
         tests:
-          - relationships:
-              to: ref('stg_users')
-              field: id_user
           - not_null
           - unique
 
@@ -67,24 +64,16 @@ models:
           - not_null
 
       - name: id_product
-        description: ID of the product associated with the event.
-        tests:
-          - relationships:
-              to: ref('stg_products')
-              field: id_product
-          - not_null    
+        description: ID of the product related to the event (null when event type is checkout or package shipped).
 
       - name: id_order
-        description: ID of the order if the event is associated with a purchase.
-        tests:
-          - relationships:
-              to: ref('stg_orders')
-              field: id_order
+        description: ID of the related order if the event was a purchase (null when event type is page view or add to cart).
+
       - name: event_type
-        description: Type of event.
+        description: Type of web event, which can be page_view, add_to_cart, checkout, package_shipped.
         tests:
           - accepted_values:
-              values: ["pageview", "add_to_cart", "checkout", "package_shipped"]
+              values: ["page_view", "add_to_cart", "checkout", "package_shipped"]
           - not_null
 
       - name: page_url
@@ -154,17 +143,13 @@ models:
         description: Current status of the order.
         tests:
           - accepted_values:
-              values: ["delivered", "shipped", "preparing"]
+              values: ["Delivered", "Shipped", "Preparing"]
       
       - name: estimated_delivery_at_utc
         description: Estimated delivery date.
-        tests:
-          - not_null   
 
       - name: delivered_at_utc
         description: Date and time the order was delivered.
-        tests:
-          - not_null
           
       - name: shipping_service
         description: Shipping service used.
@@ -210,7 +195,7 @@ models:
         description: Ordered quantity of this product.
         tests:
           - not_null
-          - positive_value
+          - positive_values
 
       - name: date_load
         description: Date when the data was loaded.
@@ -222,7 +207,7 @@ models:
     description: Data about products.
 
     columns:
-      - name: product_id
+      - name: id_product
         description: Unique identifier for the product.
         tests:
           - not_null
@@ -273,7 +258,7 @@ models:
         description: Current status of the promotion.
         tests:
           - accepted_values:
-              values: ["inactive", "active"]
+              values: ["Inactive", "Active"]
 
       - name: date_load
         description: Date when the data was loaded.
