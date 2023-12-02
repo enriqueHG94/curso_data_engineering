@@ -1,6 +1,6 @@
-WITH stg_orders AS (
-    SELECT * 
-    FROM {{ ref('stg_orders') }}
+with stg_orders as (
+    select * 
+    from {{ ref('stg_orders') }}
 ),
 
 
