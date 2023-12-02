@@ -26,4 +26,4 @@ select
 'Sin promo',
 0,
 'Inactive',
-null
+'2023-11-11T11:11:35.244000-08:00'
