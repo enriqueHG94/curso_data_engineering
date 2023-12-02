@@ -161,7 +161,7 @@ models:
         tests:
           - not_null
 
-      - name: order_cost_usd
+      - name: item_order_cost_usd
         description: Total cost of the order.
         tests:
           - not_null
