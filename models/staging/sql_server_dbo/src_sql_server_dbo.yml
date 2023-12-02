@@ -189,14 +189,12 @@ sources:
           - name: order_id
             description: ID of the order. 
             tests:
-              - unique
               - not_null
               
           - name: product_id
             description: ID of the ordered product.
             tests:
               - not_null
-              - unique
 
           - name: quantity
             description: Quantity of the ordered product.
