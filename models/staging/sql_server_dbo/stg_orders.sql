@@ -21,7 +21,7 @@ renamed_orders as (
         delivered_at as delivered_at_utc,
         decode(shipping_service, null, 'Preparing', '', 'Preparing', shipping_service) as shipping_service,
         cast(shipping_cost as decimal(10,2)) as shipping_cost_usd,
-        cast(order_cost as decimal(10,2)) as order_cost_usd,
+        cast(order_cost as decimal(10,2)) as item_order_cost_usd,
         cast(order_total as decimal(10,2)) as order_total_usd,
         _fivetran_synced as date_load
 
