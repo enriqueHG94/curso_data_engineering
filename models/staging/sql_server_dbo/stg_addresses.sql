@@ -14,7 +14,7 @@ renamed_addresses as (
         cast(zipcode as integer) as zipcode,
         cast(state as varchar(75)) as state,
         cast(country as varchar(75)) as country,
-        _fivetran_synced AS raw_timestamp_load -- Para monitorear a partir de que día empieza a reproducirse cierta casuística.
+        _fivetran_synced AS raw_timestamp_load 
     from src_addresses
 
 )
