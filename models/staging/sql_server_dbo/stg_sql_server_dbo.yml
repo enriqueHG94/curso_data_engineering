@@ -64,10 +64,10 @@ models:
           - not_null
 
       - name: id_product
-        description: ID of the product related to the event (null when event type is checkout or package shipped).
+        description: ID of the product related to the event, paid and sent when event type is checkout or package shipped.
 
       - name: id_order
-        description: ID of the related order if the event was a purchase (null when event type is page view or add to cart).
+        description: ID of the related order if the event was a purchase, awaiting payment when event type is page view or add to cart.
 
       - name: event_type
         description: Type of web event, which can be page_view, add_to_cart, checkout, package_shipped.
@@ -117,6 +117,11 @@ models:
               to: ref('stg_addresses')
               field: id_address
 
+      - name: id_tracking
+        description: Shipment tracking ID, preparing when the status is preparing.
+        tests:
+          - not_null
+
       - name: id_promo
         description: ID of the applied promo code.
         tests:
@@ -124,38 +129,28 @@ models:
               to: ref('stg_promos')
               field: id_promo
 
-      - name: id_tracking
-        description: Shipment tracking ID.
-        tests:
-          - not_null
-
-      - name: created_at_utc
-        description: Date of order creation.
-        tests:
-          - not_null
-
-      - name: desc_promo
-        description: Description of the promotion.
-        tests:
-          - not_null    
-
       - name: status
         description: Current status of the order.
         tests:
           - accepted_values:
               values: ["Delivered", "Shipped", "Preparing"]
-      
+
+      - name: shipping_service
+        description: Shipping service used, preparing when the status is preparing.
+        tests:
+          - not_null    
+
+      - name: created_at_utc
+        description: Date of order creation.
+        tests:
+          - not_null   
+ 
       - name: estimated_delivery_at_utc
-        description: Estimated delivery date.
+        description: Estimated delivery date, null when the status is preparing.
 
       - name: delivered_at_utc
-        description: Date and time the order was delivered.
+        description: Date and time the order was delivered, null when the status is preparing.
           
-      - name: shipping_service
-        description: Shipping service used.
-        tests:
-          - not_null
-
       - name: shipping_cost_usd
         description: Shipping cost.
         tests:
@@ -244,7 +239,7 @@ models:
           - not_null
           - unique
 
-      - name: desc_promo
+      - name: promo_name
         description: Description of the promotion.
         tests:
           - not_null

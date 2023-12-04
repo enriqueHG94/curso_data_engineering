@@ -26,15 +26,15 @@ renamed_promos as (
 
 ),
 
-final_promos as(
+final_promos as (
     select 
         {{ dbt_utils.generate_surrogate_key(['promo_id']) }} AS id_promo,
         promo_id AS promo_name,
         discount,
         status,
         raw_timestamp_load
-    
-    FROM renamed_promos
+
+from renamed_promos
 )
 
-SELECT * FROM final_promos
+select * from final_promos
