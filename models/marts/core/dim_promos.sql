@@ -10,7 +10,7 @@ final_promos as (
 
     select
         id_promo,
-        desc_promo,
+        promo_name,
         discount,
         status
     from stg_promos
