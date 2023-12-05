@@ -13,7 +13,7 @@ renamed_orders as (
         cast(user_id as varchar(75)) as id_user,
         cast(address_id as varchar(75)) as id_address,
         decode(tracking_id, null, 'Preparing','', 'Preparing', tracking_id) as id_tracking,
-        decode(promo_id, null, 'Without Promotion', '', 'Without Promotion', promo_id) as id_promo,
+        initcap(decode(promo_id, null, 'Without Promotion', '', 'Without Promotion', promo_id)) as id_promo,
         initcap(cast(status as varchar(25))) as status,
         decode(shipping_service, null, 'Preparing','', 'Preparing', shipping_service) as shipping_service,
         created_at as created_at_utc,
