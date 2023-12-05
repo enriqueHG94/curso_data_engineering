@@ -1,12 +1,16 @@
 with stg_orders as (
-    select * 
-    from {{ ref('stg_orders') }}
+    select * from {{ ref('stg_orders') }}
+),
+
+stg_orderitems as (
+    select * from {{ ref('stg_order_items') }}
 ),
 
 
-final_orders AS (
-    SELECT
-        id_order, 
+final_fct as (
+    select
+        o.id_order,
+        oi.id_product,
         id_user,
         id_address,
         id_promo,
@@ -14,13 +18,16 @@ final_orders AS (
         created_at_utc,
         DATEDIFF(day, created_at_utc, delivered_at_utc) AS days_to_deliver,
         status,
+        quantity,
         estimated_delivery_at_utc,
         delivered_at_utc,
         shipping_service,
         shipping_cost_usd,
         item_order_cost_usd,
         order_total_usd
-    FROM stg_orders
-    )
+    from {{ ref('stg_order_items') }}  oi
+    join {{ ref('stg_orders') }}  o
+    on oi.id_order = o.id_order
+)
 
-SELECT * FROM final_orders
+select * from final_fct
