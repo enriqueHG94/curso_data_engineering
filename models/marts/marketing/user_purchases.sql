@@ -1,3 +1,13 @@
+/*El equipo de producto necesita conocer para cada usuario todo lo referente a las compras que ha realizado. Para ello nos solicitan que indiquemos:
+
+- Toda la información disponible del usuario
+- Número de pedidos totales que ha realizado
+- Total gastado
+- Total de gastos de envío
+- Descuento total
+- Total de productos que ha comprado
+- Total de productos diferentes que ha comprado.*/
+
 with
 
 fct_orders_items as (
@@ -23,7 +33,7 @@ dim_addresses as (
 
 ),
 
--- Crear una tabla temporal con los pedidos y las líneas de detalle agrupados por usuario
+-- Pedidos y las líneas de detalle agrupados por usuario y diferentes cálculos para cada usuario.
 user_orders as (
     select
         id_user,
@@ -38,7 +48,7 @@ user_orders as (
     group by id_user
 )
 
--- Crear la tabla final con la información de cada usuario
+-- Tabla final con la información de cada usuario
 select
     u.id_user,
     u.first_name,
