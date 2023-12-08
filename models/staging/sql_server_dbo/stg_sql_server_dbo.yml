@@ -91,6 +91,32 @@ models:
         tests:
           - not_null
 
+  - name: stg_order_items
+
+    description: Data about products in each order.
+
+    columns:
+      - name: id_order
+        description: Order ID.
+        tests:
+          - not_null
+
+      - name: id_product
+        description: Product ID in the order line.
+        tests:
+          - not_null
+
+      - name: quantity
+        description: Ordered quantity of this product.
+        tests:
+          - not_null
+          - positive_values
+
+      - name: raw_timestamp_load
+        description: Date when the data was loaded.
+        tests:
+          - not_null
+
   - name: stg_orders
 
     description: This table contains orders placed by customers, with costs and total in dollars.
@@ -165,32 +191,6 @@ models:
         description: Total order including taxes and shipping.
         tests:
           - not_null
-
-      - name: raw_timestamp_load
-        description: Date when the data was loaded.
-        tests:
-          - not_null
-
-  - name: stg_order_items
-
-    description: Data about products in each order.
-
-    columns:
-      - name: id_order
-        description: Order ID.
-        tests:
-          - not_null
-
-      - name: id_product
-        description: Product ID in the order line.
-        tests:
-          - not_null
-
-      - name: quantity
-        description: Ordered quantity of this product.
-        tests:
-          - not_null
-          - positive_values
 
       - name: raw_timestamp_load
         description: Date when the data was loaded.
