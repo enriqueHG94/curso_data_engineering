@@ -1,0 +1,388 @@
+version: 2
+
+models:
+  - name: dim_addresses
+
+    description: Contains shipping addresses.
+
+    columns:
+      - name: id_address
+        description: Unique identifier for the address.
+        tests:
+          - not_null
+          - unique
+
+      - name: address
+        description: Complete address including street and number.
+        tests:
+          - not_null
+
+      - name: zipcode
+        description: Zip code of the address.
+        tests:
+          - not_null
+            
+      - name: state
+        description: State of the address.
+        tests:
+          - not_null
+
+      - name: country
+        description: Country of the address.
+        tests:
+          - accepted_values:
+              values: ["United States"]
+          - not_null
+
+  - name: dim_date
+
+    description: Date table 
+
+    columns: 
+      - name: forecast_date 
+        description: Full date 
+        tests:  
+          - not_null 
+        
+      - name: id_date 
+        description: Identifier of the date 
+        tests: 
+          - unique 
+          - not_null 
+    
+      - name: year 
+        description: Year of the date
+        tests:  
+          - not_null
+
+      - name: month 
+        description: Month of the date
+        tests:  
+          - not_null
+
+      - name: month_name 
+        description: Name of the month of the date
+        tests:  
+          - not_null
+
+      - name: year_month_id 
+        description: Identifier of the month and year
+        tests: 
+          - unique 
+          - not_null
+
+      - name: previous_day 
+        description: Date of the previous day
+        tests:  
+          - not_null
+      - name: year_week_day_id
+        description: Identifier of the day of the week of the year
+        tests:
+          - unique  
+          - not_null
+
+      - name: week_number 
+        description: Week of the year
+        tests:  
+          - not_null
+
+      - name: day_of_week_number
+        description: Number of the day of the week
+        tests:  
+          - not_null
+
+      - name: day_of_week_name
+        description: Name of the day of the week
+        tests:  
+          - not_null
+
+      - name: quarter_number
+        description: Number of the quarter
+        tests:  
+          - not_null
+
+      - name: semester_number
+        description: Number of the semester
+        tests:  
+          - not_null
+
+      - name: fiscal_year
+        description: Fiscal year of the date
+        tests:  
+          - not_null
+
+  - name: dim_products
+
+    description: Data about products.
+
+    columns:
+      - name: id_product
+        description: Unique identifier for the product.
+        tests:
+          - not_null
+          - unique
+
+      - name: name
+        description: Product name.
+        tests:
+          - not_null
+
+      - name: price
+        description: Product price.
+        tests:
+          - not_null
+
+      - name: inventory
+        description: Quantity in inventory of the product.
+        tests:
+          - not_null
+
+  - name: dim_promos
+
+    description: Data about promotions.
+
+    columns:
+      - name: id_promo
+        description: Unique identifier for the promotion.
+        tests:
+          - not_null
+          - unique
+
+      - name: promo_name
+        description: Description of the promotion.
+        tests:
+          - not_null
+
+      - name: discount
+        description: Percentage discount of the promotion.
+        tests:
+          - not_null
+
+      - name: status
+        description: Current status of the promotion.
+        tests:
+          - accepted_values:
+              values: ["Inactive", "Active"]
+
+  - name: dim_users
+
+    description: Data about user profiles.
+
+    columns:
+      - name: id_user
+        description: Unique identifier for the user.
+        tests:
+          - not_null
+          - unique
+
+      - name: id_address
+        description: ID of the user's address.
+        tests:
+          - relationships:
+              to: ref('dim_addresses')
+              field: id_address
+
+      - name: first_name
+        description: User's first name.
+        tests:
+          - not_null
+
+      - name: last_name
+        description: User's last name.
+        tests:
+          - not_null
+
+      - name: phone_number
+        description: User's contact phone number.
+        tests:
+          - not_null
+
+      - name: email
+        description: User's email.
+        tests:
+          - not_null
+
+      - name: created_profile
+        description: Date of user profile creation.
+        tests:
+          - not_null
+
+      - name: updated_profile
+        description: Date of the last profile update.
+        tests:
+          - not_null
+
+  - name: fct_budget
+
+    description: Data about the budget.
+
+    columns:
+
+      - name: _row
+        description: Number of each row from Google Sheet.
+        tests:
+          - not_null
+          - unique
+
+      - name: id_product
+        description: UUID for each unique product on the platform.
+        tests:
+          - not_null
+          - relationships:
+                to: ref('dim_products')
+                field: id_product
+
+      - name: quantity
+        description: Number of units for each product and each month for products.
+        tests:
+          - not_null
+          - positive_values
+
+      - name: month
+        description: Each month for the budget -> End of the month.
+        tests:
+          - not_null
+
+  - name: fct_events
+
+    description: Data about web events.
+
+    columns:
+      - name: id_event
+        description: Unique identifier for each event.
+        tests:
+          - not_null
+          - unique
+
+      - name: id_user
+        description: ID of the user who generated the event.
+        tests:
+          - relationships:
+              to: ref('stg_users')
+              field: id_user
+          - not_null
+
+      - name: id_session
+        description: User's session ID.
+        tests:
+          - not_null
+
+      - name: id_product
+        description: ID of the product related to the event, paid and sent when event type is checkout or package shipped.
+
+      - name: id_order
+        description: ID of the related order if the event was a purchase, awaiting payment when event type is page view or add to cart.
+
+      - name: event_type
+        description: Type of web event, which can be page_view, add_to_cart, checkout, package_shipped.
+        tests:
+          - accepted_values:
+              values: ["page_view", "add_to_cart", "checkout", "package_shipped"]
+          - not_null
+
+      - name: page_url
+        description: URL of the page where the event occurred.
+        tests:
+          - not_null
+
+      - name: created_event
+        description: Date and time when the event occurred.
+        tests:
+          - not_null
+
+      - name: raw_timestamp_load
+        description: Date when the data was loaded.
+        tests:
+          - not_null
+
+  - name: fct_orders_items
+
+    description: This table contains orders placed by customers, with costs and total in dollars.
+
+    columns:
+      - name: id_order
+        description: Unique identifier for each order.
+        tests:
+          - not_null
+          - unique
+
+      - name: id_product
+        description: Unique identifier for each order.
+        tests:
+          - not_null
+          - unique
+
+      - name: id_user
+        description: ID of the user who made the purchase.
+        tests:
+          - relationships:
+              to: ref('dim_users')
+              field: id_user
+          - not_null
+
+      - name: id_address
+        description: ID of the shipping address.
+        tests:
+          - relationships:
+              to: ref('dim_addresses')
+              field: id_address
+
+      - name: id_promo
+        description: ID of the applied promo code.
+        tests:
+          - relationships:
+              to: ref('dim_promos')
+              field: id_promo
+
+      - name: id_tracking
+        description: Shipment tracking ID, preparing when the status is preparing.
+        tests:
+          - not_null
+
+      - name: created_at_utc
+        description: Date of order creation.
+        tests:
+          - not_null
+
+      - name: days_to_deliver
+        description: Difference in days from order creation to delivery.
+        tests:
+          - not_null
+
+      - name: status
+        description: Current status of the order.
+        tests:
+          - accepted_values:
+              values: ["Delivered", "Shipped", "Preparing"]
+
+      - name: quantity
+        description: Ordered quantity of this product.
+        tests:
+          - not_null
+          - positive_values  
+ 
+      - name: estimated_delivery_at_utc
+        description: Estimated delivery date, null when the status is preparing.
+
+      - name: delivered_at_utc
+        description: Date and time the order was delivered, null when the status is preparing.
+
+      - name: shipping_service
+        description: Shipping service used, preparing when the status is preparing.
+        tests:
+          - not_null
+          
+      - name: shipping_cost_usd
+        description: Shipping cost.
+        tests:
+          - not_null
+
+      - name: item_order_cost_usd
+        description: Total cost of the order.
+        tests:
+          - not_null
+
+      - name: order_total_usd
+        description: Total order including taxes and shipping.
+        tests:
+          - not_null
