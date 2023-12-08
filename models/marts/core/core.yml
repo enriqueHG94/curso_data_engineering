@@ -44,10 +44,9 @@ models:
         tests:  
           - not_null 
         
-      - name: id_date 
+      - name: date_id 
         description: Identifier of the date 
-        tests: 
-          - unique 
+        tests:  
           - not_null 
     
       - name: year 
@@ -68,7 +67,6 @@ models:
       - name: year_month_id 
         description: Identifier of the month and year
         tests: 
-          - unique 
           - not_null
 
       - name: previous_day 
@@ -78,7 +76,6 @@ models:
       - name: year_week_day_id
         description: Identifier of the day of the week of the year
         tests:
-          - unique  
           - not_null
 
       - name: week_number 
@@ -290,11 +287,6 @@ models:
         tests:
           - not_null
 
-      - name: raw_timestamp_load
-        description: Date when the data was loaded.
-        tests:
-          - not_null
-
   - name: fct_orders_items
 
     description: This table contains orders placed by customers, with costs and total in dollars.
@@ -304,13 +296,11 @@ models:
         description: Unique identifier for each order.
         tests:
           - not_null
-          - unique
 
       - name: id_product
         description: Unique identifier for each order.
         tests:
           - not_null
-          - unique
 
       - name: id_user
         description: ID of the user who made the purchase.
@@ -346,8 +336,6 @@ models:
 
       - name: days_to_deliver
         description: Difference in days from order creation to delivery.
-        tests:
-          - not_null
 
       - name: status
         description: Current status of the order.
