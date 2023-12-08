@@ -1,3 +1,11 @@
+/*El equipo de producto necesita conocer para cada sesión:
+
+- Todo lo referente al usuario de la sesión
+- Inicio y fin de la misma
+- Tiempo de duración de la sesión
+- Número de páginas vistas
+- Número de eventos relacionados con add_to_cart, checkout y package_shipped. */
+
 with 
 
 fct_events as (
@@ -12,7 +20,7 @@ dim_users as (
     
 ),
 
--- Crear una tabla temporal con los eventos agrupados por sesión
+-- Eventos agrupados por sesión.
     session_events as (
         select
             id_session,
@@ -26,7 +34,7 @@ dim_users as (
         from fct_events
     ),
 
--- Crear una tabla temporal con la información de inicio y fin de sesión
+-- Información de inicio, fin y duración de la sesión. 
     session_start_end as (
         select
             id_session,
@@ -38,7 +46,7 @@ dim_users as (
         group by id_session, id_user
     ),
 
--- Crear una tabla temporal con el número de páginas vistas por sesión
+-- Número de páginas vistas por sesión.
     session_page_views as (
         select
             id_session,
@@ -47,7 +55,7 @@ dim_users as (
         group by id_session
     ),
 
--- Crear una tabla temporal con el número de eventos de cada tipo por sesión
+-- Número de eventos de cada tipo por sesión.
     session_event_counts as (
         select
             id_session,
@@ -58,7 +66,7 @@ dim_users as (
         group by id_session
     )
 
--- Crear la tabla final con la información de cada sesión
+-- Tabla final con la información de cada sesión.
 select
     s.id_session,
     u.id_user,
