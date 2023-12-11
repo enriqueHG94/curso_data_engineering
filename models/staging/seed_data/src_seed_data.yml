@@ -1,0 +1,54 @@
+version: 2
+
+sources:
+
+  - name: seed_data # Name of source
+    description: Raw data from the database.
+    schema: seed_data # This is the schema in which our raw data lives
+    database: "{{ env_var('DBT_ENVIRONMENTS') }}_BRONZE_DB" # This is the name of our database
+
+    quoting:
+      database: false
+      schema: false
+      identifier: false
+
+    freshness:
+      warn_after: {count: 24, period: hour}
+      error_after: {count: 48, period: hour}
+
+    tables:
+
+      - name: new_products
+        description: Product data.
+
+        columns:
+
+          - name: product_id
+            description: Unique identifier for each product.
+            tests:
+              - not_null
+              - unique
+
+          - name: price
+            description: Price of the product.
+            tests:
+              - not_null
+              - positive_values
+
+          - name: name
+            description: Name of the product.
+            tests:
+              - not_null
+
+          - name: inventory
+            description: Quantity in inventory.
+            tests:
+              - not_null
+
+          - name: _fivetran_deleted  
+            description: Date when the data was deleted.
+        
+          - name: _fivetran_synced
+            description: Date when the data was loaded.
+            tests:
+              - not_null
