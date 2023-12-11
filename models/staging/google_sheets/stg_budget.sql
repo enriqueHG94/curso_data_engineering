@@ -10,7 +10,7 @@ renamed_casted as (
         cast(product_id as varchar(75)) as id_product,
         cast(quantity as integer) as quantity,
         month,
-        _fivetran_synced as raw_timestamp_load
+        _fivetran_synced as date_load
     from src_budget_products
 )
 
