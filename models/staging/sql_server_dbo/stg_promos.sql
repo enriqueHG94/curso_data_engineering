@@ -12,7 +12,7 @@ renamed_promos as (
         initcap(cast(promo_id as varchar(50))) as promo_id,
         cast(discount as integer) as discount,
         initcap(cast(status as varchar(50))) as status,
-        _fivetran_synced as raw_timestamp_load
+        _fivetran_synced as date_load
 
     from src_promos
 
@@ -32,7 +32,7 @@ final_promos as (
         promo_id AS promo_name,
         discount,
         status,
-        raw_timestamp_load
+        date_load
 
 from renamed_promos
 )

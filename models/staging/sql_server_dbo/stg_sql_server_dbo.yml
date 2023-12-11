@@ -34,7 +34,7 @@ models:
               values: ["United States"]
           - not_null
 
-      - name: raw_timestamp_load
+      - name: date_load
         description: Date when the data was loaded.
         tests:
           - not_null
@@ -86,7 +86,7 @@ models:
         tests:
           - not_null
 
-      - name: raw_timestamp_load
+      - name: date_load
         description: Date when the data was loaded.
         tests:
           - not_null
@@ -112,7 +112,7 @@ models:
           - not_null
           - positive_values
 
-      - name: raw_timestamp_load
+      - name: date_load
         description: Date when the data was loaded.
         tests:
           - not_null
@@ -192,7 +192,7 @@ models:
         tests:
           - not_null
 
-      - name: raw_timestamp_load
+      - name: date_load
         description: Date when the data was loaded.
         tests:
           - not_null
@@ -223,7 +223,7 @@ models:
         tests:
           - not_null
 
-      - name: raw_timestamp_load
+      - name: date_load
         description: Date when the data was loaded.
         tests:
           - not_null
@@ -255,7 +255,7 @@ models:
           - accepted_values:
               values: ["Inactive", "Active"]
 
-      - name: raw_timestamp_load
+      - name: date_load
         description: Date when the data was loaded.
         tests:
           - not_null
@@ -308,7 +308,7 @@ models:
         tests:
           - not_null
 
-      - name: raw_timestamp_load
+      - name: date_load
         description: Date when the data was loaded.
         tests:
           - not_null

@@ -17,7 +17,7 @@ renamed_events as (
         cast(event_type as varchar(75)) as event_type,
         cast(page_url as varchar(100)) as page_url,
         created_at as created_event,
-        _fivetran_synced AS raw_timestamp_load
+        _fivetran_synced AS date_load
 
     from src_events
 

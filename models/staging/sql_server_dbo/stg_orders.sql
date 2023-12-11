@@ -22,7 +22,7 @@ renamed_orders as (
         cast(shipping_cost as decimal(10,2)) as shipping_cost_usd,
         cast(order_cost as decimal(10,2)) as item_order_cost_usd,
         cast(order_total as decimal(10,2)) as order_total_usd,
-        _fivetran_synced as raw_timestamp_load
+        _fivetran_synced as date_load
 
     from src_orders
 
@@ -44,7 +44,7 @@ final_orders as (
         shipping_cost_usd,
         item_order_cost_usd,
         order_total_usd,
-        raw_timestamp_load
+        date_load
     from renamed_orders
 
 )
