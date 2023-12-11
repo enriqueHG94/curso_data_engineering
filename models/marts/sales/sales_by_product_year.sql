@@ -27,7 +27,7 @@ fct_budget as (
 
 ),
 
--- Crear una tabla temporal con los datos de ventas por producto y año 
+-- Crea una tabla temporal con los datos de ventas por producto y año 
 sales_by_product_year as ( 
     select 
         p.id_product, 
@@ -44,7 +44,7 @@ sales_by_product_year as (
     group by p.id_product, p.name, p.price, year(o.created_at_utc) 
     ),
 
--- Crear una tabla temporal con los datos de presupuesto por producto y año 
+-- Crea una tabla temporal con los datos de presupuesto por producto y año 
 budget_by_product_year as ( 
     select 
         p.id_product, 
@@ -59,7 +59,7 @@ budget_by_product_year as (
         group by p.id_product, p.name, p.price, year(b.month) 
         )
 
--- Crear la tabla final con la información de cada producto por año 
+-- Crea la tabla final con la información de cada producto por año 
 select 
     s.id_product, 
     s.product_name, 
