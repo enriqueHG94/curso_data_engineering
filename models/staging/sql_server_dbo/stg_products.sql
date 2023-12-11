@@ -1,7 +1,4 @@
-{{ config(
-    materialized='incremental'
-    ) 
-    }}
+{{ config( materialized='incremental' ) }}
 
 with
 
@@ -52,16 +49,14 @@ combined_products as (
 
 {% if is_incremental() %}
 
-select
-    p.*
-from combined_products p
-left join {{ this }} t
-    on p.id_product = t.id_product
-where t.id_product is null
+    select p.*
+    from combined_products as p
+    left join {{ this }} as t
+        on p.id_product = t.id_product
+    where t.id_product is null
 
 {% else %}
 
 select * from combined_products
 
 {% endif %}
-
