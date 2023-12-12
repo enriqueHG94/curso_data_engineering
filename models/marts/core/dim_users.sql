@@ -10,6 +10,7 @@ final_users as (
 
     select
         id_user,
+        id_address,
         first_name,
         last_name,
         phone_number,

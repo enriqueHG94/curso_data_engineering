@@ -17,6 +17,7 @@ final_events as (
         event_type,
         page_url,
         created_event
+
     from stg_events
 
 )

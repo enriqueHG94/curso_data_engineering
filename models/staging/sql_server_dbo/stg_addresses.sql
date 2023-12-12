@@ -1,4 +1,4 @@
-with 
+with
 
 src_addresses as (
 
@@ -14,7 +14,7 @@ renamed_addresses as (
         cast(zipcode as integer) as zipcode,
         cast(state as varchar(75)) as state,
         cast(country as varchar(75)) as country,
-        _fivetran_synced AS date_load
+        _fivetran_synced as date_load
     from src_addresses
 
 )

@@ -7,14 +7,12 @@ stg_products as (
 ),
 
 final_products as (
-
     select
         id_product,
         name,
         price,
         inventory
     from stg_products
-
 )
 
 select * from final_products

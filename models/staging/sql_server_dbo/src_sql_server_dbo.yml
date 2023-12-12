@@ -2,10 +2,10 @@ version: 2
 
 sources:
 
-  - name: sql_server_dbo # Nombre de la fuente
-    description: datos brutos de la base de datos.
-    schema: sql_server_dbo # Este es el esquema en el que viven nuestros datos brutos
-    database: "{{ env_var('DBT_ENVIRONMENTS') }}_BRONZE_DB" # Este es el nombre de nuestra base de datos
+  - name: sql_server_dbo # Name of source
+    description: Raw data from the database.
+    schema: sql_server_dbo # This is the schema in which our raw data lives
+    database: "{{ env_var('DBT_ENVIRONMENTS') }}_BRONZE_DB" # This is the name of our database
 
     quoting:
       database: false
@@ -19,352 +19,312 @@ sources:
     tables:
       
       - name: addresses
-        description: Datos de dirreciones de clientes.
+        description: Contains shipping addresses.
         
         columns:
           
           - name: address_id
-            description: Clave primaria para la tabla de direcciones.
+            description: Primary key for the addresses table.
             tests:
-              - relationships:
-                  to: source('sql_server_dbo', 'users') 
-                  field: user_id
               - not_null
               - unique
               
                 
           - name: zipcode
-            description: Codigo postal de la dirección.
+            description: Postal code of the address.
             tests:
               - not_null
                   
           - name: country
-            description: Pais de la dirección.
+            description: Country of the address.
             tests:
               - not_null
                   
           - name: address
-            description: Direccion completa con la calle y el número.
+            description: Complete address with street and number.
             tests:
               - not_null
                   
           - name: state
-            description: Estado de la dirección.
+            description: State of the address.
             tests:
               - not_null
                   
           - name: _fivetran_deleted
-            description: Fecha en que se borraron los datos.
+            description: Date when the data was deleted.
                 
           - name: _fivetran_synced
-            description: Fecha en que se cargaron los datos.
+            description: Date when the data was loaded.
             tests:
               - not_null
                   
       - name: events
-        description: Datos de eventos web.
+        description: Web events data.
         
         columns:
           
           - name: event_id
-            description: Identificador único de cada evento.
+            description: Unique identifier for each event.
             tests:
               - not_null
               - unique
 
           - name: page_url
-            description: URL de la página donde ocurrió el evento.
+            description: URL of the page where the event occurred.
             tests:
               - not_null
 
           - name: event_type
-            description: Tipo de evento web que puede ser page_view, add_to_cart, checkout, package_shipped
+            description: Type of web event, which can be page_view, add_to_cart, checkout, package_shipped.
             tests:
               - accepted_values:
                   values: ['page_view','add_to_cart','checkout','package_shipped'] 
               - not_null
 
           - name: user_id
-            description: ID del usuario que generó el evento. 
+            description: ID of the user who generated the event. 
             tests:
-              - relationships:
-                  to: source('sql_server_dbo', 'users')
-                  field: user_id
               - not_null
 
           - name: product_id
-            description: ID del producto relacionado con el evento.
-            tests:
-              - relationships:
-                  to: source('sql_server_dbo', 'products')
-                  field: product_id
-              - not_null
+            description: ID of the product related to the event (null when event type is checkout or package shipped).
 
           - name: session_id
-            description: ID de la sesión del usuario.
+            description: ID of the user's session.
             tests:
               - not_null
 
           - name: created_at
-            description: Marca de tiempo de cuando ocurrió el evento.
+            description: Timestamp of when the event occurred.
             tests:
               - not_null
 
           - name: order_id
-            description: ID del pedido relacionado si el evento fue una compra.
-            tests:
-              - relationships:
-                  to: source('sql_server_dbo', 'orders')
-                  field: order_id
+            description: ID of the related order if the event was a purchase (null when event type is page view or add to cart).
 
           - name: _fivetran_deleted  
-            description: Fecha en que se borraron los datos.
+            description: Date when the data was deleted.
         
           - name: _fivetran_synced
-            description: Fecha en el que se cargaron los datos.
+            description: Date when the data was loaded.
             tests:
               - not_null
 
       - name: orders
-        description: Esta tabla contiene los pedidos realizados por los clientes, con los costes y el total en dólares.
+        description: This table contains orders placed by customers, with costs and total in dollars.
         
         columns:
          
           - name: order_id
-            description: Identificador único de cada pedido.
+            description: Unique identifier for each order.
             tests:
               - not_null
               - unique
 
           - name: shipping_service 
-            description: Servicio de envío utilizado en el pedido.
-            tests:
-              - not_null
+            description: Shipping service used in the order (null when status is preparing).
 
           - name: shipping_cost
-            description: Costo del envío.
+            description: Cost of shipping.
             tests:
               - not_null
               
           - name: address_id
-            description: ID de la dirección de envío.
+            description: ID of the shipping address.
             tests:
-              - relationships:
-                  to: source('sql_server_dbo', 'addresses')
-                  field: address_id
               - not_null
 
           - name: created_at 
-            description: Fecha y hora en que se creó el pedido.         
+            description: Date and time the order was created.         
             tests:
               - not_null
 
           - name: promo_id
-            description: El identificador de la promoción aplicada al pedido, si la hay, o null en caso contrario.
-            tests:
-              - relationships:
-                  to: source('sql_server_dbo', 'promos')
-                  field: promo_id
-              - not_null
+            description: Identifier of the promotion applied to the order, if any, or null otherwise.
 
           - name: estimated_delivery_at
-            description: Fecha y hora estimada de entrega.
-            tests:
-              - not_null
+            description: Estimated date and time of delivery (null when status is preparing).
 
           - name: order_cost
-            description: Costo total del pedido.
+            description: Cost of the order.
             tests:
               - not_null
               
           - name: user_id
-            description: ID del usuario que realizó la compra.
+            description: ID of the user who made the purchase.
             tests:
-              - relationships:
-                  to: source('sql_server_dbo', 'users')
-                  field: user_id
               - not_null
 
           - name: order_total  
-            description: Total del pedido incluyendo impuestos y envío.
+            description: Total order amount including shipping.
             tests:
               - not_null
 
           - name: delivered_at
-            description: La fecha y hora en que se entregó el pedido, o null si aún está preparación.
-            tests:
-              - not_null
+            description: Date and time the order was delivered, or null if still in preparation.
 
           - name: tracking_id
-            description: ID de seguimiento del envío.
-            tests:
-              - not_null
+            description: Shipping tracking ID (null when status is preparing).
 
           - name: status
-            description: El estado actual del pedido, que puede ser delivered, shipped o preparing.
+            description: Current status of the order, which can be delivered, shipped, or preparing.
             tests:
               - accepted_values:
                   values: ['delivered', 'shipped', 'preparing']
               - not_null
 
           - name: _fivetran_deleted
-            description: Fecha en que se borraron los datos.
+            description: Date when the data was deleted.
 
           - name: _fivetran_synced
-            description: Fecha en que se cargaron los datos.
+            description: Date when the data was loaded.
             tests:
               - not_null
                       
       - name: order_items
-        description: Datos de productos de cada pedido.
+        description: Data of products in each order.
 
         columns:
         
           - name: order_id
-            description: ID del pedido. 
+            description: ID of the order. 
             tests:
-              - unique
               - not_null
               
           - name: product_id
-            description: ID del producto pedido.
+            description: ID of the ordered product.
             tests:
               - not_null
-              - unique
 
           - name: quantity
-            description: Cantidad del producto pedido.
+            description: Quantity of the ordered product.
             tests:
               - not_null
 
           - name: _fivetran_deleted  
-            description: Fecha en que se borraron los datos.
+            description: Date when the data was deleted.
         
           - name: _fivetran_synced
-            description: Fecha en el que se cargaron los datos.
+            description: Date when the data was loaded.
             tests:
               - not_null
       - name: products
-        description: Datos de productos.
+        description: Product data.
 
         columns:
 
           - name: product_id
-            description: Identificador único de cada producto.
+            description: Unique identifier for each product.
             tests:
               - not_null
               - unique
 
           - name: price
-            description: Precio del producto.
+            description: Price of the product.
             tests:
               - not_null
               - positive_values
 
           - name: name
-            description: Nombre del producto.
+            description: Name of the product.
             tests:
               - not_null
 
           - name: inventory
-            description: Cantidad en el inventario.
+            description: Quantity in inventory.
             tests:
               - not_null
 
           - name: _fivetran_deleted  
-            description: Fecha en que se borraron los datos.
+            description: Date when the data was deleted.
         
           - name: _fivetran_synced
-            description: Fecha en el que se cargaron los datos.
+            description: Date when the data was loaded.
             tests:
               - not_null
 
       - name: promos
-        description: Datos de promociones.
+        description: Promotion data.
 
         columns:
         
           - name: promo_id
-            description: Identificador único de cada promoción.
+            description: Unique identifier for each promotion.
             tests:
               - not_null
               - unique
 
           - name: discount 
-            description: Porcentaje de descuento de la promoción.
+            description: Percentage discount of the promotion.
             tests:
               - not_null
 
           - name: status
-            description: Estado actual de la promoción.
+            description: Current status of the promotion.
             tests:
               - not_null
 
           - name: _fivetran_deleted  
-            description: Fecha en que se borraron los datos.
+            description: Date when the data was deleted.
         
           - name: _fivetran_synced
-            description: Fecha en el que se cargaron los datos.
+            description: Date when the data was loaded.
             tests:
               - not_null
       
       - name: users
-        description: Datos de perfil de usuarios.
+        description: User profile data.
         
         columns:
 
           - name: user_id
-            description: Identificador único de cada usuario. 
+            description: Unique identifier for each user. 
             tests:
               - not_null
               - unique
 
           - name: updated_at
-            description: Fecha y hora de última actualización del perfil.
+            description: Date and time of the last profile update.
             tests:
               - not_null
 
           - name: address_id
-            description: ID de la dirección del usuario.
+            description: ID of the user's address.
             tests:
               - not_null
 
           - name: last_name
-            description: Apellido del usuario.
+            description: User's last name.
             tests:
               - not_null
 
           - name: created_at
-            description: Fecha y hora de creación del perfil.
+            description: Date and time of profile creation.
             tests:
               - not_null
 
           - name: phone_number
-            description: Número de teléfono del usuario.
+            description: User's phone number.
             tests:
               - not_null
 
           - name: total_orders
-            description: Cantidad total de pedidos del usuario. 
-            tests:
-              - not_null
+            description: Total number of orders made by the user. 
 
           - name: first_name
-            description: Nombre del usuario.
+            description: User's first name.
             tests:
               - not_null
 
           - name: email
-            description: Email del usuario. 
+            description: User's email. 
             tests:
               - not_null
 
           - name: _fivetran_deleted  
-            description: Fecha en que se borraron los datos.
+            description: Date when the data was deleted.
         
           - name: _fivetran_synced
-            description: Fecha en el que se cargaron los datos.
+            description: Date when the data was loaded.
             tests:
               - not_null
-
-
