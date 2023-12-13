@@ -1,3 +1,5 @@
+{{ config(materialized='incremental') }}
+
 with 
 
 stg_products as (
@@ -16,3 +18,13 @@ final_products as (
 )
 
 select * from final_products
+
+{% if is_incremental() %}
+
+    where not exists (
+        select 1
+        from {{ this }}
+        where {{ this }}.id_product = final_products.id_product
+    )
+
+{% endif %}
