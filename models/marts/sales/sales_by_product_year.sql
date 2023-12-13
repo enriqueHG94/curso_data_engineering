@@ -35,7 +35,7 @@ sales_by_product_year as (
         p.price as product_price, 
         year(o.created_at_utc) as year, 
         sum(o.quantity) as units_sold, 
-        sum(o.quantity * o.item_order_cost_usd) as sales_amount, 
+        sum(o.quantity * p.price) as sales_amount, 
         sum(case when o.status = 'Returned' then o.quantity else 0 end) as units_returned, 
         sum(case when o.status = 'Returned' then o.quantity * o.item_order_cost_usd else 0 end) as refund_amount 
     from fct_orders_items as o 
