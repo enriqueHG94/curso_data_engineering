@@ -297,14 +297,13 @@ models:
         description: Unique identifier for each order.
         tests:
           - not_null
+          - unique
 
       - name: id_product
-        description: Unique identifier for each product in the order.
+        description: Unique identifier for each product.
         tests:
           - not_null
-          - relationships:
-              to: ref('dim_products')
-              field: id_product
+          - unique
 
       - name: id_user
         description: ID of the user who made the purchase.
@@ -344,43 +343,67 @@ models:
         tests:
           - not_null
 
-      - name: product_price
-        description: Price of the product.
+      - name: product_price_usd
+        description: Price of the product in USD.
         tests:
           - not_null
 
       - name: quantity
-        description: Quantity of the product ordered in this line item.
+        description: Quantity of the product ordered.
         tests:
           - not_null
           - positive_values
 
       - name: total_product_cost_usd
-        description: Total cost of the product for the quantity ordered in USD.
-        tests:
-          - not_null
-
-      - name: created_at_utc
-        description: Date and time when the order was created in UTC.
-        tests:
-          - not_null
-
-      - name: days_to_deliver
-        description: Number of days taken to deliver the order from the creation date.
-
-      - name: estimated_delivery_at_utc
-        description: Estimated delivery date and time in UTC, null when the status is preparing.
-
-      - name: delivered_at_utc
-        description: Actual delivery date and time in UTC, null when the status is preparing.
-
-      - name: shipping_service
-        description: Shipping service used for the order, 'Preparing' when the status is preparing.
+        description: Total cost of the product line in USD.
         tests:
           - not_null
 
       - name: shipping_cost_per_product_line
-        description: Shipping cost allocated to this product line in USD.
+        description: Shipping cost allocated to each product line, based on the quantity.
         tests:
           - not_null
+
+      - name: created_at_utc
+        description: Date and time of order creation in UTC.
+        tests:
+          - not_null
+
+      - name: days_to_deliver
+        description: Number of days from order creation to delivery.
+        tests:
+          - not_null
+
+      - name: estimated_delivery_at_utc
+        description: Estimated delivery date and time in UTC, null when the status is preparing.
+        tests:
+          - not_null
+
+      - name: delivered_at_utc
+        description: Date and time the order was delivered in UTC, null when the status is preparing.
+
+      - name: shipping_service
+        description: Shipping service used, 'Preparing' when the status is preparing.
+        tests:
+          - not_null
+
+      - name: shipping_cost_usd
+        description: Total shipping cost of the order in USD.
+        tests:
+          - not_null
+
+      - name: order_cost_usd
+        description: Total cost of the order excluding shipping in USD.
+        tests:
+          - not_null
+
+      - name: order_total_usd
+        description: Total cost of the order including taxes and shipping in USD.
+        tests:
+          - not_null
+
+
+
+
+
 
