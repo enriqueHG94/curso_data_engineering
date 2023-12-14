@@ -7,7 +7,7 @@ Este repositorio contiene todos los componentes de mi proyecto final, diseñado 
 ### Tecnologías usadas
 
 1. **Fivetran:** para extracción e ingestas de los datos
-2. **Snowflake:** como data Warehouse donde alojaremos nuestras bases de datos divididas en tres zonas o bases:
+2. **Snowflake:** como data Warehouse donde alojaremos nuestras bases de datos divididas en tres zonas o capas:
     - Bronze
     - Silver
     - Gold
@@ -56,4 +56,8 @@ Además, se valorará el uso de tablas adicionales a las que se han comentado en
     - Análisis de Sesiones de Usuario: Esta consulta ofrece al equipo de producto insights sobre cada sesión de usuario, incluyendo duración, número de páginas vistas y eventos específicos como 'add_to_cart', 'checkout', y 'package_shipped'.
 - `sales/`
     - Análisis de Ventas por Producto y Año: Proporciona al equipo de ventas datos valiosos sobre cada producto, incluyendo ventas, unidades vendidas y devueltas, comparación con presupuestos y ranking de los productos más vendidos por año.
+
+### Contacto
+Email: enriquehervasguerrero@gmail.com
+LinkedIn: https://www.linkedin.com/in/enrique-hervas-guerrero/
 
