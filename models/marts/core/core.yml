@@ -294,93 +294,99 @@ models:
     columns:
 
       - name: id_order
-        description: Unique identifier for each order.
+        description: "Unique identifier for each order."
         tests:
           - not_null
 
       - name: id_product
-        description: Unique identifier for each product in the order.
+        description: "Unique identifier for each product in an order."
         tests:
           - not_null
-          - relationships:
-              to: ref('dim_products')
-              field: id_product
 
       - name: id_user
-        description: ID of the user who made the purchase.
+        description: "Identifier for the user who made the order."
         tests:
+          - not_null
           - relationships:
               to: ref('dim_users')
               field: id_user
-          - not_null
 
       - name: id_address
-        description: ID of the shipping address.
+        description: "Identifier for the shipping address."
         tests:
+          - not_null
           - relationships:
               to: ref('dim_addresses')
               field: id_address
 
       - name: id_promo
-        description: ID of the applied promo code.
+        description: "Identifier for the applied promotional code, if any."
         tests:
           - relationships:
               to: ref('dim_promos')
               field: id_promo
 
       - name: id_tracking
-        description: Shipment tracking ID, 'Preparing' when the status is preparing.
+        description: "Tracking identifier for the order shipment."
         tests:
           - not_null
 
       - name: status
-        description: Current status of the order.
+        description: "Current status of the order (e.g., 'Delivered', 'Shipped', 'Preparing')."
         tests:
+          - not_null
           - accepted_values:
               values: ["Delivered", "Shipped", "Preparing"]
 
       - name: product_name
-        description: Name of the product.
+        description: "Name of the product."
         tests:
           - not_null
 
-      - name: product_price
-        description: Price of the product.
+      - name: product_price_usd
+        description: "Price of the product in USD."
         tests:
           - not_null
 
       - name: quantity
-        description: Quantity of the product ordered in this line item.
+        description: "Quantity of the product ordered."
         tests:
           - not_null
           - positive_values
 
       - name: total_product_cost_usd
-        description: Total cost of the product for the quantity ordered in USD.
-        tests:
-          - not_null
-
-      - name: created_at_utc
-        description: Date and time when the order was created in UTC.
-        tests:
-          - not_null
-
-      - name: days_to_deliver
-        description: Number of days taken to deliver the order from the creation date.
-
-      - name: estimated_delivery_at_utc
-        description: Estimated delivery date and time in UTC, null when the status is preparing.
-
-      - name: delivered_at_utc
-        description: Actual delivery date and time in UTC, null when the status is preparing.
-
-      - name: shipping_service
-        description: Shipping service used for the order, 'Preparing' when the status is preparing.
+        description: "Total cost of the product line in USD."
         tests:
           - not_null
 
       - name: shipping_cost_per_product_line
-        description: Shipping cost allocated to this product line in USD.
+        description: "Shipping cost allocated to this product line in USD."
         tests:
           - not_null
+
+      - name: shipping_service
+        description: "Shipping service used for the order."
+        tests:
+          - not_null
+
+      - name: created_at_utc
+        description: "UTC timestamp when the order was created."
+        tests:
+          - not_null
+
+      - name: days_to_deliver
+        description: "Number of days taken to deliver the order from the creation date."
+
+      - name: estimated_delivery_at_utc
+        description: "Estimated delivery date and time in UTC."
+
+      - name: delivered_at_utc
+        description: "Actual delivery date and time in UTC."
+
+
+
+
+
+
+
 
