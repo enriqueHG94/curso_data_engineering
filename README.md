@@ -4,7 +4,7 @@ This repository contains all components of my final project, designed and built 
 
 ## **Project Description**
 
-### Technologies Used
+### **Technologies Used**
 
 1. **Fivetran:** for data extraction and ingestion.
 2. **Snowflake:** as the Data Warehouse where I will host our databases divided into three zones or layers:
@@ -17,7 +17,7 @@ This repository contains all components of my final project, designed and built 
     - package: calogica/dbt_expectations version: 0.10.1
     - package: dbt-labs/dbt_project_evaluator version: 0.8.0
 
-### Main Objective
+### **Main Objective**
 
 The main objectives of the project are:
 
@@ -31,13 +31,13 @@ The main objectives of the project are:
     - Orders
 5. Document and add tests to the models in the Gold zone.
 
-### 2. Secondary Objectives
+### 2. **Secondary Objectives**
 
 Once the main objective of the project is met, the creation of a system capable of generating or simulating incremental data ingestion and the application of incremental transformations to feed the Gold layer will be valued.
 
 Additionally, the use of tables beyond those mentioned in the main objective and the enrichment of the model will be valued.
 
-## Project Structure in dbt
+## **Project Structure in dbt**
 
 - `seeds/` - Contains a CSV with new products that I have added as a simulation of ingestion.
 - `models/` - Contains all .yml and .sql files equivalent to the Bronze, Silver, and Gold zones of Snowflake, divided into two folders.
@@ -47,7 +47,7 @@ Additionally, the use of tables beyond those mentioned in the main objective and
     - `marts/` - Contains the Gold zone of Snowflake, divided into 4 folders.
         - `gold/` - The core folder houses the dimensional model with its dim_ or dimensions and its fct_ or facts tables optimized for analytical tools, it also contains a .yml with documentation and testing and the other three are use cases for different departments with my already modeled data.
 
-### Use Cases
+### **Use Cases**
 
 - `marketing/`
     - User Purchase Analysis: I develop a detailed query to provide the product team with a comprehensive analysis of user purchases, including user information, total number of orders, total spending, shipping costs, discounts, and product details.
@@ -56,6 +56,10 @@ Additionally, the use of tables beyond those mentioned in the main objective and
 - `sales/`
     - Sales Analysis by Product and Year: Provides the sales team with valuable data on each product, including sales, units sold and returned, comparison with budgets, and ranking of the best-selling products by year.
 
-### Contact
+### **Contact**
 Email: enriquehervasguerrero@gmail.com
 LinkedIn: https://www.linkedin.com/in/enrique-hervas-guerrero/
+
+
+### **Acknowledgements**
+I would like to express my gratitude to Cívica Software for giving me the opportunity to participate in this course, and to all the teachers for their kindness, understanding, and the good humor they brought to the classes.
