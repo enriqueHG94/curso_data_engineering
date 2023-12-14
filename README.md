@@ -47,14 +47,18 @@ Additionally, the use of tables beyond those mentioned in the main objective and
     - `marts/` - Contains the Gold zone of Snowflake, divided into 4 folders.
         - `gold/` - The core folder houses the dimensional model with its dim_ or dimensions and its fct_ or facts tables optimized for analytical tools, it also contains a .yml with documentation and testing and the other three are use cases for different departments with my already modeled data.
 
-### **Use Cases**
 
-- `marketing/`
-    - User Purchase Analysis: I develop a detailed query to provide the product team with a comprehensive analysis of user purchases, including user information, total number of orders, total spending, shipping costs, discounts, and product details.
-- `product/`
-    - User Session Analysis: This query offers the product team insights into each user session, including duration, number of pages viewed, and specific events like 'add_to_cart', 'checkout', and 'package_shipped'.
-- `sales/`
-    - Sales Analysis by Product and Year: Provides the sales team with valuable data on each product, including sales, units sold and returned, comparison with budgets, and ranking of the best-selling products by year.
+### Use Cases
+
+#### Marketing:
+- **User Purchase Analysis**: Developed a detailed query to provide the product team with an in-depth analysis of user purchases. This includes comprehensive user information, total number of orders, total expenditure, detailed shipping costs, discounts received, and specifics of products purchased. The recent enhancements in data granularity enhance the precision of this analysis.
+
+#### Product:
+- **User Session Analysis**: Offers insightful analysis into each user session for the product team, including session duration, number of pages viewed, and specific events such as 'add_to_cart', 'checkout', and 'package_shipped'. The modifications in the data model ensure more accurate tracking of user engagement.
+
+#### Sales:
+- **Sales Analysis by Product and Year**: Provides the sales team with crucial data on each product, encompassing total sales, units sold and returned, a detailed comparison with budgeted figures, and the ranking of top-selling products by year. The updated data structure allows for a more nuanced understanding of product performance over time.
+
 
 ### **Contact**
 Email: enriquehervasguerrero@gmail.com
