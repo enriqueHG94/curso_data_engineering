@@ -40,14 +40,11 @@ final_fct as (
         quantity,
         (p.price * oi.quantity) as total_product_cost_usd,
         cast((o.shipping_cost_usd * oi.quantity) / oc.total_quantity as decimal(7,2)) as shipping_cost_per_product_line,
+        shipping_service,
         created_at_utc,
         DATEDIFF(day, created_at_utc, delivered_at_utc) AS days_to_deliver,
         estimated_delivery_at_utc,
-        delivered_at_utc,
-        shipping_service,
-        shipping_cost_usd,
-        item_order_cost_usd as order_cost_usd,
-        order_total_usd
+        delivered_at_utc
     from {{ ref('stg_order_items') }}  oi
     join {{ ref('stg_orders') }}  o
     on oi.id_order = o.id_order
