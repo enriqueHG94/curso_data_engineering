@@ -51,13 +51,13 @@ Additionally, the use of tables beyond those mentioned in the main objective and
 ### Use Cases
 
 #### Marketing:
-- **User Purchase Analysis**: Developed a detailed query to provide the product team with an in-depth analysis of user purchases. This includes comprehensive user information, total number of orders, total expenditure, detailed shipping costs, discounts received, and specifics of products purchased. The recent enhancements in data granularity enhance the precision of this analysis.
+- **User Purchase Analysis**: Developed a detailed query to provide the product team with an in-depth analysis of user purchases. This includes comprehensive user information, total number of orders, total expenditure, detailed shipping costs, discounts received, and specifics of products purchased.
 
 #### Product:
-- **User Session Analysis**: Offers insightful analysis into each user session for the product team, including session duration, number of pages viewed, and specific events such as 'add_to_cart', 'checkout', and 'package_shipped'. The modifications in the data model ensure more accurate tracking of user engagement.
+- **User Session Analysis**: Offers insightful analysis into each user session for the product team, including session duration, number of pages viewed, and specific events such as 'add_to_cart', 'checkout', and 'package_shipped'.
 
 #### Sales:
-- **Sales Analysis by Product and Year**: Provides the sales team with crucial data on each product, encompassing total sales, units sold and returned, a detailed comparison with budgeted figures, and the ranking of top-selling products by year. The updated data structure allows for a more nuanced understanding of product performance over time.
+- **Sales Analysis by Product and Year**: Provides the sales team with crucial data on each product, encompassing total sales, units sold and returned, a detailed comparison with budgeted figures, and the ranking of top-selling products by year.
 
 
 ### **Contact**
