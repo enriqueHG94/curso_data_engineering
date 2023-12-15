@@ -7,7 +7,7 @@ This repository contains all components of my final project, designed and built 
 ### **Technologies Used**
 
 1. **Fivetran:** for data extraction and ingestion.
-2. **Snowflake:** as the Data Warehouse where I will host our databases divided into three zones or layers:
+2. **Snowflake:** as the Data Warehouse where I will host my databases divided into three zones or layers:
     - Bronze
     - Silver
     - Gold
